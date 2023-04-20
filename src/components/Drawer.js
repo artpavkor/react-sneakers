@@ -11,6 +11,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
     const [orderId, setOrderId] = useState(null)
     const [isOrderComplete, setIsOrderComplete] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const totalPriceSum = cartItems.reduce((acc, currentString) => acc + parseFloat(currentString.price.replace(/\s/g, '')), 0);
 
     const onClickOrder = async () => {
         try {
@@ -73,12 +74,12 @@ function Drawer({ onClose, onRemove, items = [] }) {
                                 <li>
                                     <span>Итого:</span>
                                     <div></div>
-                                    <b>21 498 руб. </b>
+                                    <b>{totalPriceSum} руб. </b>
                                 </li>
                                 <li>
                                     <span>Налог 5%:</span>
                                     <div></div>
-                                    <b>1074 руб. </b>
+                                    <b> {parseInt(totalPriceSum / 100 * 5)} руб. </b>
                                 </li>
                             </ul>
                             <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
