@@ -1,5 +1,5 @@
 
-import Drawer from "./components/Drawer";
+import Drawer from "./components/Drawer/index";
 import Header from "./components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -20,49 +20,91 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
 
-
   useEffect(() => {
     async function fetchData() {
-      const cartResponce = await axios.get('https://6415ce21351c4aed4910041d.mockapi.io/cart')
-      const favoritesResponce = await axios.get('https://641d8e42945125fff3d0159f.mockapi.io/favorite')
-      const itemsResponce = await axios.get('https://6415ce21351c4aed4910041d.mockapi.io/items')
+      try {
+        const [cartResponce, favoritesResponce, itemsResponce] = await Promise.all(
+          [
+            axios.get('https://6415ce21351c4aed4910041d.mockapi.io/cart'),
+            axios.get('https://641d8e42945125fff3d0159f.mockapi.io/favorite'),
+            axios.get('https://6415ce21351c4aed4910041d.mockapi.io/items'),
+          ])
 
 
-      setIsLoading(false)
-
-      setCartItems(cartResponce.data);
-      setFavorites(favoritesResponce.data);
-      setItems(itemsResponce.data);
+        setIsLoading(false)
+        setCartItems(cartResponce.data);
+        setFavorites(favoritesResponce.data);
+        setItems(itemsResponce.data);
+      } catch (error) {
+        alert('Ошибка при запросе данных');
+        console.error(error)
+      }
     }
+
     fetchData();
   }, [])
 
-  const onAddToCart = (obj) => {
-    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-      axios.delete(`https://6415ce21351c4aed4910041d.mockapi.io/cart/${obj.id}`)
-      setCartItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
-
-    } else {
-      axios.post('https://6415ce21351c4aed4910041d.mockapi.io/cart', obj)
-      setCartItems((prev) => [...prev, obj])
-    }
-  }
-
-  const onRemoveItem = (id) => {
-    axios.delete(`https://6415ce21351c4aed4910041d.mockapi.io/cart/${id}`)
-    setCartItems((prev) => prev.filter(item => item.id !== id))
-  }
-  const onAddToFavorite = async (obj) => {
+  const onAddToCart = async (obj) => {
     try {
-      if (favorites.find((favObj) => Number(favObj.id) === Number(obj.id))) {
-        axios.delete(`https://641d8e42945125fff3d0159f.mockapi.io/favorite/${obj.id}`)
-        setFavorites((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+      const findItem = cartItems.find((item) => Number(item.parentId) === Number(obj.id));
+      if (findItem) {
+        setCartItems((prev) => prev.filter((item) => Number(item.parentId) !== Number(obj.id)));
+        await axios.delete(`https://6415ce21351c4aed4910041d.mockapi.io/cart/${findItem.id}`)
+
       } else {
-        const { data } = await axios.post('https://641d8e42945125fff3d0159f.mockapi.io/favorite', obj)
-        setFavorites((prev) => [...prev, data])
+        setCartItems((prev) => [...prev, obj])
+        const { data } = await axios.post('https://6415ce21351c4aed4910041d.mockapi.io/cart', obj)
+        setCartItems((prev) => prev.map(item => {
+          if (item.parentId === data.parentId) {
+            return {
+              ...item,
+              id: data.id,
+            };
+          }
+          return item;
+        }))
       }
     } catch (error) {
+      alert('Ошибка при добавлении в корзину ')
+      console.error(error)
+    }
+
+  }
+
+  const onRemoveItem = async (id) => {
+    try {
+      setCartItems((prev) => prev.filter(item => Number(item.id) !== Number(id)))
+      await axios.delete(`https://6415ce21351c4aed4910041d.mockapi.io/cart/${id}`)
+    } catch (error) {
+      alert('Ошибка при удалении из корзины ')
+      console.error(error)
+    }
+
+  }
+
+  const onAddToFavorite = async (obj) => {
+    try {
+      const findFavorite = favorites.find((item) => item.parentId === obj.id)
+      if (findFavorite) {
+        setFavorites((prev) => prev.filter((item) => item.parentId !== obj.id));
+        axios.delete(`https://641d8e42945125fff3d0159f.mockapi.io/favorite/${findFavorite.id}`)
+      } else {
+        setFavorites((prev) => [...prev, obj])
+        const { data } = await axios.post('https://641d8e42945125fff3d0159f.mockapi.io/favorite', obj)
+        setFavorites((prev) => prev.map(item => {
+          if (item.parentId === data.parentId) {
+            return {
+              ...item,
+              id: data.id,
+            };
+          }
+          return item;
+        }))
+      }
+
+    } catch (error) {
       alert('Не удалось добавить в избранное')
+      console.error(error)
     }
 
   }
@@ -71,11 +113,15 @@ function App() {
   }
 
   const isItemAdded = (id) => {
-    return cartItems.some((obj) => Number(obj.id) === Number(id))
+    return cartItems.some((obj) => Number(obj.parentId) === Number(id))
+  }
+
+  const isFavoriteAdded = (id) => {
+    return favorites.some((obj) => obj.parentId === id)
   }
 
   return (
-    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems }} >
+    <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, setFavorites, isFavoriteAdded, onAddToCart, onAddToFavorite, setCartOpened, setCartItems }} >
       <div className="black_row">
         <img
           width={13}
@@ -87,7 +133,7 @@ function App() {
 
       </div>
       <div className="wrapper clear">
-        {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
+        <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} opened={cartOpened} />
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route

@@ -1,4 +1,5 @@
-import Cart from '../components/Cart/Cart';
+import Card from '../components/Card';
+import Slide from '../components/Slide';
 
 function Home({
   items,
@@ -13,9 +14,9 @@ function Home({
     const filteredItems = items.filter((item) =>
       item.name.toLowerCase().includes(searchValue)
     );
-    return (isLoading ? [...Array(10)] : filteredItems).map((item, index) => {
+    return (isLoading ? [...Array(8)] : filteredItems).map((item, index) => {
       return (
-        <Cart
+        <Card
           key={index}
           onFavorite={(obj) => onAddToFavorite(obj)}
           onPlus={(obj) => onAddToCart(obj)}
@@ -25,31 +26,43 @@ function Home({
       );
     });
   };
+  const images = [
+    '/img/image-sneakers-1.png',
+    '/img/image-sneakers-2.png',
+    '/img/image-sneakers-3.png',
+    '/img/image-sneakers-4.png',
+  ];
   return (
-    <div className="content p-40">
-      <div className="d-flex align-center mb-40 justify-between">
-        <h1>
-          {searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}
-        </h1>
-        <div className="search-block d-flex">
-          <img src="/img/search.svg" alt="Search" />
-          {searchValue && (
-            <img
-              className="clear cu-p"
-              src="/img/btn-remove.svg"
-              alt="Clear"
-              onClick={() => setSearchValue('')}
+    <>
+      <Slide images={images} />
+      <div className="content">
+        <div className="d-flex align-center mb-30 justify-between flex-wrap">
+          <h1>
+            {searchValue
+              ? `Поиск по запросу: "${searchValue}"`
+              : 'Все кроссовки'}
+          </h1>
+          <div className="search-block d-flex">
+            <img src="/img/search.svg" alt="Search" />
+            {searchValue && (
+              <img
+                className="clear cu-p"
+                src="/img/btn-remove.svg"
+                alt="Clear"
+                onClick={() => setSearchValue('')}
+              />
+            )}
+            <input
+              onChange={onChangeSearchInput}
+              value={searchValue}
+              placeholder="Поиск..."
             />
-          )}
-          <input
-            onChange={onChangeSearchInput}
-            value={searchValue}
-            placeholder="Поиск..."
-          />
+          </div>
         </div>
       </div>
-      <div className="product-container">{renderItems()}</div>
-    </div>
+
+      <div className="main_home">{renderItems()}</div>
+    </>
   );
 }
 

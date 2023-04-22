@@ -16,16 +16,39 @@ body {
 }
 
 header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 15px 30px 10px 30px;
   border-bottom: 1px solid #eaeaea;
 
-  h3,
+
   p {
-    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+
+    span {
+      font-size: 11px;
+      font-weight: 400;
+      color: rgb(42, 42, 42);
+    }
   }
+
+}
+
+.main_home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
 }
 
 .content {
+  padding: 20px 40px 0 40px;
+
   h1 {
+    font-size: 27px;
     margin: 0;
   }
 }
@@ -58,6 +81,32 @@ header {
   }
 }
 
+.greenButton_favorite {
+  width: 125px;
+  height: 32px;
+  background: #9dd558;
+  border-radius: 18px;
+  border: 0;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.1s ease-in-out;
+
+  &:disabled {
+    background-color: #bebebe !important;
+    cursor: default;
+  }
+
+  &:hover {
+    background: lighten(#9dd558, 5%);
+  }
+
+  &:active {
+    background: darken(#9dd558, 5%);
+  }
+}
+
 // ____________________________________________________________
 
 .search-block {
@@ -84,41 +133,6 @@ header {
   }
 }
 
-.overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
-
-.drawer {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  width: 420px;
-  right: 0;
-  height: 100%;
-  background: #FFFFFF;
-  box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-
-  .items {
-    flex: 1;
-    overflow: auto;
-    margin-bottom: 40px;
-  }
-
-  h2 {
-    margin: 0;
-  }
-
-  .items {
-    flex: 1;
-  }
-}
 
 .cartTotalBlock {
   ul {
@@ -224,12 +238,6 @@ header {
   }
 }
 
-.product-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
 @keyframes button-loading {
   0% {
     opacity: 1;
@@ -262,4 +270,37 @@ header {
     margin-left: 5px;
     color: #9dd558;
   }
+}
+
+.favorite_card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.orders_row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.navbar {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  span {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 700px) {
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    justify-content: center;
+  }
+
 }

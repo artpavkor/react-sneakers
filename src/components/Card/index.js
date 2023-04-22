@@ -1,19 +1,19 @@
-import { useState } from 'react';
 import ContentLoader from 'react-content-loader';
-import styles from './Cart.module.scss'
+import styles from './Card.module.scss'
 import { useContext } from 'react';
 import AppContext from '../context';
 
-function Cart({ id, img, name, price, onPlus, onFavorite, favorited = false, loading = false }) {
-    const { isItemAdded } = useContext(AppContext);
-    const [isFavorite, setIsFavorite] = useState(favorited)
+function Card({ id, img, name, price, onPlus, visibility = true, onFavorite, loading = false }) {
+    const { isItemAdded, isFavoriteAdded } = useContext(AppContext);
+    const obj = { id, parentId: id, img, name, price };
+
 
     const onClickPlus = () => {
-        onPlus({ id, img, name, price })
+        onPlus(obj)
     }
+
     const onClickFavorite = () => {
-        onFavorite({ id, img, name, price })
-        setIsFavorite(!isFavorite)
+        onFavorite(obj)
     }
 
     return (
@@ -36,9 +36,11 @@ function Cart({ id, img, name, price, onPlus, onFavorite, favorited = false, loa
                 </ContentLoader>
                 :
                 <>
-                    <div className={styles.favotite} onClick={onClickFavorite}>
-                        <img src={isFavorite === true ? "/img/liked.svg" : "/img/unliked.svg"} alt="liked" />
-                    </div>
+
+                    {visibility && <div className={styles.favotite} onClick={onClickFavorite}>
+                        <img src={isFavoriteAdded(id) ? "/img/liked.svg" : "/img/unliked.svg"} alt="liked" />
+                    </div>}
+
                     <img
                         width='100%'
                         height={135}
@@ -51,15 +53,16 @@ function Cart({ id, img, name, price, onPlus, onFavorite, favorited = false, loa
                             <span>Цена:</span>
                             <b>{price} руб</b>
                         </div>
-                        <img className={styles.plus}
+                        {visibility && <img className={styles.plus}
                             onClick={onClickPlus}
                             src={isItemAdded(id) ? '/img/btn-cheked.svg' : '/img/plus.svg'}
                             alt="plus"
-                        />
+                        />}
+
                     </div>
                 </>}
         </div>
     )
 }
 
-export default Cart;
+export default Card;
