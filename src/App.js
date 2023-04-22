@@ -158,5 +158,3 @@ function App() {
 }
 
 export default App;
-
-// https://github.com/Archakov06/react-sneakers
