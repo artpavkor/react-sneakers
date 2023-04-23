@@ -14,7 +14,7 @@ function Favorites() {
       );
       setFavorites([]);
     } catch (error) {
-      alert('Ошибка при удалении из корзины ');
+      alert('Ошибка при удалении');
       console.error(error);
     }
   };
