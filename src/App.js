@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import Favorites from "./pages/Favorites";
 import AppContext from "./components/context";
 import Orders from "./pages/Orders";
+import Footer from "./components/Footer";
 
 
 
@@ -122,22 +123,23 @@ function App() {
 
   return (
     <AppContext.Provider value={{ items, cartItems, favorites, isItemAdded, setFavorites, isFavoriteAdded, onAddToCart, onAddToFavorite, setCartOpened, setCartItems }} >
+
       <div className="black_row">
         <img
           width={13}
           height={13}
-          src="/img/time_clock.png"
+          src="/react-sneakers/img/time_clock.png"
           alt="clock"
         />
-        <p className="clock_text">8-22 будни · 8-20 выходные <span> +7 800 700 00 00</span></p>
-
+        <p className="clock_text">Режим работы: 9:00-20:00 (ежедневно) <span> +7 800 700 00 00</span></p>
       </div>
+
       <div className="wrapper clear">
         <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} opened={cartOpened} />
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route
-            path="/"
+            path="/react-sneakers/"
             element=
             {<Home
               items={items}
@@ -149,10 +151,11 @@ function App() {
               onAddToCart={onAddToCart}
               isLoading={isLoading}
             />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/react-sneakers/favorites" element={<Favorites />} />
+          <Route path="/react-sneakers/orders" element={<Orders />} />
         </Routes>
       </div>
+      <Footer />
     </AppContext.Provider>
   );
 }

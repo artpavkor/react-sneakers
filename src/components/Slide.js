@@ -16,7 +16,7 @@ function Slide({ images }) {
     };
 
     return (
-        <div className="wrapper">
+        <div className="wrapper-slide">
             <Splide
                 options={options}
                 aria-labelledby="autoplay-example-heading"

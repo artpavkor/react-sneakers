@@ -42,7 +42,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                     <img
                         onClick={onClose}
                         className="removeBtn cu-p"
-                        src="/img/btn-remove.svg"
+                        src="/react-sneakers/img/btn-remove.svg"
                         alt="Remove"
                     />
                 </h2>
@@ -56,13 +56,13 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                                             style={{ backgroundImage: `url(${obj.img})` }}
                                             className="cartItemImg"
                                         ></div>
-                                        <div className="mr-20 flex">
+                                        <div className="mr-10 flex">
                                             <p className="mb-5">{obj.name}</p>
                                             <b>{obj.price} руб. </b>
                                         </div>
                                         <img
                                             className="removeBtn"
-                                            src="/img/btn-remove.svg"
+                                            src="/react-sneakers/img/btn-remove.svg"
                                             alt="Remove"
                                             onClick={() => onRemove(obj.id)}
                                         />
@@ -85,7 +85,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                             </ul>
                             <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
                                 Оформить заказ
-                                <img src="/img/arrow.svg" alt="Arrow" />
+                                <img src="/react-sneakers/img/arrow.svg" alt="Arrow" />
                             </button>
                         </div>
                     </>
@@ -93,7 +93,7 @@ function Drawer({ onClose, onRemove, items = [], opened }) {
                     <Info
                         title={isOrderComplete ? "Заказ оформлен!" : "Корзина пустая"}
                         description={isOrderComplete ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ"}
-                        image={isOrderComplete ? '/img/complete-order.jpg' : '/img/empty-cart.png'} />
+                        image={isOrderComplete ? '/react-sneakers/img/complete-order.jpg' : '/react-sneakers/img/empty-cart.png'} />
                 )}
             </div>
         </div>

@@ -10,12 +10,12 @@ function Header(props) {
   return (
     <header>
       <div className="d-flex align-center">
-        <Link to="/">
+        <Link to="/react-sneakers">
           <img
             className="mr-20"
             width={90}
             height={70}
-            src="/img/logoSneakers.png"
+            src="/react-sneakers/img/logoSneakers.png"
             alt="logo"
           />
         </Link>
@@ -25,17 +25,17 @@ function Header(props) {
       </div>
       <ul className="navbar">
         <li onClick={props.onClickCart} className="mr-30 cu-p">
-          <img width={20} height={20} src="/img/card.png" alt="card" />
+          <img width={20} height={20} src="/react-sneakers/img/card.png" alt="card" />
           <span className="ml-10">{totalPriceSum} руб.</span>
         </li>
         <li className="mr-20 cu-p">
-          <Link to="/favorites">
-            <img width={20} height={20} src="/img/favourite.png" alt="card"></img>
+          <Link to="/react-sneakers/favorites">
+            <img width={20} height={20} src="/react-sneakers/img/favourite.png" alt="card"></img>
           </Link>
         </li>
         <li>
-          <Link to="/orders">
-            <img width={20} height={20} src="/img/user.png" alt="card" />
+          <Link to="/react-sneakers/orders">
+            <img width={20} height={20} src="/react-sneakers/img/user.png" alt="card" />
           </Link>
         </li>
       </ul>

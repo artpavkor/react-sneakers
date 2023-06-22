@@ -38,7 +38,7 @@ function Card({ id, img, name, price, onPlus, visibility = true, onFavorite, loa
                 <>
 
                     {visibility && <div className={styles.favotite} onClick={onClickFavorite}>
-                        <img src={isFavoriteAdded(id) ? "/img/liked.svg" : "/img/unliked.svg"} alt="liked" />
+                        <img src={isFavoriteAdded(id) ? "/react-sneakers/img/liked.svg" : "/react-sneakers/img/unliked.svg"} alt="liked" />
                     </div>}
 
                     <img
@@ -55,10 +55,9 @@ function Card({ id, img, name, price, onPlus, visibility = true, onFavorite, loa
                         </div>
                         {visibility && <img className={styles.plus}
                             onClick={onClickPlus}
-                            src={isItemAdded(id) ? '/img/btn-cheked.svg' : '/img/plus.svg'}
+                            src={isItemAdded(id) ? '/react-sneakers/img/btn-cheked.svg' : '/react-sneakers/img/plus.svg'}
                             alt="plus"
                         />}
-
                     </div>
                 </>}
         </div>

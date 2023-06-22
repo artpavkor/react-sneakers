@@ -26,15 +26,15 @@ function Home({
       );
     });
   };
-  const images = [
-    '/img/image-sneakers-1.png',
-    '/img/image-sneakers-2.png',
-    '/img/image-sneakers-3.png',
-    '/img/image-sneakers-4.png',
+  const imagesSlide = [
+    '/react-sneakers/img/image-sneakers-1.png',
+    '/react-sneakers/img/image-sneakers-2.png',
+    '/react-sneakers/img/image-sneakers-3.png',
+    '/react-sneakers/img/image-sneakers-4.png',
   ];
   return (
     <>
-      <Slide images={images} />
+      <Slide images={imagesSlide} />
       <div className="content">
         <div className="d-flex align-center mb-30 justify-between flex-wrap">
           <h1>
@@ -43,11 +43,11 @@ function Home({
               : 'Все кроссовки'}
           </h1>
           <div className="search-block d-flex">
-            <img src="/img/search.svg" alt="Search" />
+            <img src="/react-sneakers/img/search.svg" alt="Search" />
             {searchValue && (
               <img
                 className="clear cu-p"
-                src="/img/btn-remove.svg"
+                src="/react-sneakers/img/btn-remove.svg"
                 alt="Clear"
                 onClick={() => setSearchValue('')}
               />
@@ -60,7 +60,6 @@ function Home({
           </div>
         </div>
       </div>
-
       <div className="main_home">{renderItems()}</div>
     </>
   );
